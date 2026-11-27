@@ -1,0 +1,40 @@
+# Plantilla de CI. Copiar a .github/workflows/quality.yml cuando el token
+# tenga permiso «workflows» (o crear el archivo desde la web de GitHub).
+name: Calidad y seguridad
+
+on:
+  push:
+    branches: [main, "arena/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Validación HTML + auditoría de seguridad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validar HTML
+        run: npx --yes html-validate@9 index.html 404.html
+
+      - name: Auditoría de seguridad estática
+        run: python3 tools/audit.py
+
+      - name: Comprobar que no hay dependencias de terceros
+        run: |
+          if grep -RInE '<script[^>]*src="https?://|<link[^>]*rel="stylesheet"[^>]*href="https?://' --include='*.html' .; then
+            echo "::error::Se detectaron recursos externos; este sitio no debe cargar CDNs."
+            exit 1
+          fi
