@@ -318,6 +318,8 @@ main.container { padding-block: 2rem 3rem; }
   line-height: 1.7;
   color: var(--text);
 }
+.hero-summary p { margin: 0; }
+.hero-summary p + p { margin-top: 0.85rem; }
 .hero-summary strong { color: var(--text-strong); }
 
 /* ---------- Radar ---------- */
