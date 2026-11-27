@@ -9,6 +9,8 @@ Publicado como sitio estático (Cloudflare Pages / Netlify / GitHub Pages).
 index.html                     Página principal (semántica, SEO, JSON-LD)
 404.html                       Página de error con la misma identidad visual
 assets/css/style.css           Estilos propios (sin Tailwind CDN ni frameworks)
+assets/img/codeugel-mark.png   Isotipo transparente para navegación y favicon
+assets/img/codeugel-logo.png   Logo transparente completo para Open Graph
 assets/js/app.js               Filtros, radar SVG, copiar correo, WhatsApp (defer)
 _headers                       Cabeceras de seguridad (Cloudflare Pages)
 robots.txt / sitemap.xml       Indexación
