@@ -12,7 +12,7 @@ assets/css/style.css           Estilos propios (sin Tailwind CDN ni frameworks)
 assets/img/codeugel-mark.png   Isotipo transparente para navegación y favicon
 assets/img/codeugel-logo.png   Logo transparente completo para Open Graph
 assets/img/tech-logos/*.svg    Logos locales actuales para la nube interactiva del hero
-assets/js/app.js               Filtros, radar SVG, copiar correo, WhatsApp (defer)
+assets/js/app.js               Búsqueda/filtros/vistas, paleta de comandos, radar y utilidades (defer)
 _headers                       Cabeceras de seguridad (Cloudflare Pages)
 robots.txt / sitemap.xml       Indexación
 .well-known/security.txt       Canal de reporte de vulnerabilidades
@@ -51,6 +51,9 @@ eugelcv.html                   Redirección legacy → index.html
   foco visible, `prefers-reduced-motion`, contraste AA.
 - Responsive *mobile-first*, tipografía `clamp()`, tarjetas de proyecto
   con métricas y CTA por proyecto.
+- Explorador de proyectos con búsqueda/filtros inmediatos y vistas de lista,
+  cuadrícula y trayectoria; `Ctrl/⌘ K` abre la paleta de comandos, `/` busca
+  y `1–3` alterna vistas. Los detalles técnicos se revelan bajo demanda.
 - **WhatsApp directo**: botón flotante + CTA en hero, por proyecto y en
   contacto, todos a `wa.me/584148013225` con mensaje prellenado
   (funciona sin JS; `app.js` normaliza el enlace con `data-wa`).

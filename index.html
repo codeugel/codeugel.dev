@@ -67,6 +67,7 @@
     <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></g></symbol>
     <symbol id="i-print" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></g></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-terminal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></g></symbol>
     <symbol id="i-landmark" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="m12 2 9 5H3l9-5z"/></g></symbol>
     <symbol id="i-transfer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></g></symbol>
@@ -113,6 +114,10 @@
           <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
           <span>WhatsApp</span>
         </a>
+        <button class="btn command-trigger" type="button" id="commandTrigger" aria-haspopup="dialog" aria-controls="commandPalette">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <span class="btn-label">Ir a…</span><kbd>Ctrl/⌘ K</kbd>
+        </button>
         <button class="btn btn-primary" type="button" id="printBtn" aria-label="Imprimir o guardar como PDF">
           <svg aria-hidden="true"><use href="#i-print"/></svg>
           <span class="btn-label">Imprimir / PDF</span>
@@ -177,6 +182,7 @@
               <span class="badge">Full-Stack Architect</span>
             </div>
             <p class="hero-role">Lic. en Informática · Microservicios · IA &amp; DevOps</p>
+            <p class="hero-positioning">Sistemas en producción para procesos que no pueden fallar.</p>
             <div class="hero-meta">
               <span><svg aria-hidden="true"><use href="#i-pin"/></svg> Nueva Esparta, Venezuela</span>
               <button class="copy-btn" type="button" id="copyEmail" data-email="codeugel@gmail.com" aria-label="Copiar correo codeugel@gmail.com">
@@ -216,27 +222,42 @@
       </div>
     </section>
 
-    <!-- Filtros -->
-    <section class="panel filters no-print" aria-label="Filtrar proyectos y experiencia">
-      <span class="filters-label"><svg aria-hidden="true"><use href="#i-filter"/></svg> Filtrar logros técnicos:</span>
-      <div class="filters-group" role="group" aria-label="Categorías">
-        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">[Todos]</button>
-        <button class="filter-btn" type="button" data-filter="ai" aria-pressed="false">IA &amp; LLMs</button>
-        <button class="filter-btn" type="button" data-filter="devops" aria-pressed="false">DevOps &amp; Cloud</button>
-        <button class="filter-btn" type="button" data-filter="microservices" aria-pressed="false">Microservicios &amp; APIs</button>
-        <button class="filter-btn" type="button" data-filter="tactical" aria-pressed="false">MQTT &amp; Seguridad</button>
+    <!-- Explorar trabajo: búsqueda, filtros y vistas sin recargar -->
+    <section class="panel filters no-print" aria-label="Explorar proyectos y experiencia">
+      <div class="explore-topline">
+        <label class="search-box">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="projectSearch" type="search" placeholder="Buscar proyectos, tecnologías…" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+        <div class="view-switch" role="group" aria-label="Vista de proyectos">
+          <button class="view-btn" type="button" data-view="list" aria-pressed="true" aria-label="Vista de lista (tecla 1)" title="Lista · 1"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Lista</span></button>
+          <button class="view-btn" type="button" data-view="grid" aria-pressed="false" aria-label="Vista de cuadrícula (tecla 2)" title="Cuadrícula · 2"><svg aria-hidden="true"><use href="#i-box"/></svg><span>Cuadrícula</span></button>
+          <button class="view-btn" type="button" data-view="timeline" aria-pressed="false" aria-label="Vista de trayectoria (tecla 3)" title="Trayectoria · 3"><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Trayectoria</span></button>
+        </div>
       </div>
-      <span class="filters-count" id="filterCount" aria-live="polite"></span>
+      <div class="explore-bottomline">
+        <span class="filters-label"><svg aria-hidden="true"><use href="#i-filter"/></svg> Especialidad</span>
+        <div class="filters-group" role="group" aria-label="Filtrar por especialidad">
+          <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">Todo</button>
+          <button class="filter-btn" type="button" data-filter="ai" aria-pressed="false">IA &amp; LLMs</button>
+          <button class="filter-btn" type="button" data-filter="devops" aria-pressed="false">DevOps &amp; Cloud</button>
+          <button class="filter-btn" type="button" data-filter="microservices" aria-pressed="false">APIs &amp; Microservicios</button>
+          <button class="filter-btn" type="button" data-filter="tactical" aria-pressed="false">MQTT &amp; Seguridad</button>
+        </div>
+        <span class="filters-count" id="filterCount" aria-live="polite"></span>
+      </div>
+      <p class="keyboard-hint">Atajos: <kbd>/</kbd> buscar <span>·</span> <kbd>1–3</kbd> cambiar vista <span>·</span> <kbd>Ctrl/⌘ K</kbd> comandos</p>
     </section>
 
     <div class="layout-grid">
       <!-- Columna principal: proyectos + experiencia -->
       <div class="stack">
-        <section class="panel" id="proyectos" aria-labelledby="proyectos-titulo">
+        <section class="panel projects-section" id="proyectos" data-view="list" aria-labelledby="proyectos-titulo" tabindex="-1">
           <h2 class="panel-title" id="proyectos-titulo"><svg aria-hidden="true"><use href="#i-terminal"/></svg> Proyectos destacados y experiencia</h2>
 
           <!-- Alcaldía Digital -->
-          <article class="project-card project-card--cyan" data-category="ai devops microservices tactical">
+          <article class="project-card project-card--cyan" data-kind="project" data-category="ai devops microservices tactical">
             <div class="project-head">
               <div>
                 <h3 class="project-title project-title--cyan"><svg aria-hidden="true"><use href="#i-landmark"/></svg> Alcaldía Digital — Gestión integral de trámites municipales</h3>
@@ -249,7 +270,9 @@
               transformando requisitos administrativos en un expediente digital único con trazabilidad,
               permisos por rol y transferencia automática entre instancias.
             </p>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Explorar arquitectura y resultados</summary>
+              <ul class="highlights">
               <li><svg class="hl-cyan" aria-hidden="true"><use href="#i-route"/></svg><span>Modelé una máquina de estados de trámites validada tanto en cliente como en PostgreSQL, con aprobación por etapa, motivos obligatorios y asignación automática del siguiente responsable.</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-users"/></svg><span>Diseñé una experiencia de ciudadano paso a paso con Radix UI y validación Zod compartida: formularios guiados, línea de tiempo del expediente, estados de carga/error y mensajes claros para reducir errores operativos.</span></li>
               <li><svg class="hl-emerald" aria-hidden="true"><use href="#i-mail"/></svg><span>Automaticé notificaciones por correo y mantenimiento administrativo mediante workers Node.js; las decisiones quedan registradas y generan alertas sin traslados manuales.</span></li>
@@ -276,10 +299,12 @@
                 <svg aria-hidden="true"><use href="#i-whatsapp"/></svg><span>Pedir demo por WhatsApp</span>
               </a>
             </div>
+
+            </details>
           </article>
 
           <!-- ELCAMBISTA PRO -->
-          <article class="project-card project-card--emerald" data-category="ai devops microservices tactical">
+          <article class="project-card project-card--emerald" data-kind="project" data-category="ai devops microservices tactical">
             <div class="project-head">
               <div>
                 <h3 class="project-title project-title--emerald"><svg aria-hidden="true"><use href="#i-transfer"/></svg> ELCAMBISTA PRO — Sistema automatizado para casas de cambio</h3>
@@ -293,7 +318,9 @@
               (<strong>Tesseract, EasyOCR y PaddleOCR</strong>) para 7 bancos venezolanos y los procesa
               mediante un worker persistente en Python con dashboards en tiempo real y reportes Excel por turno.
             </p>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Explorar arquitectura y resultados</summary>
+              <ul class="highlights">
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-server"/></svg><span>Arquitectura desacoplada de 3 etapas (bot → cola en SQLite → worker OCR) con claims atómicos, watchdog, heartbeat y recuperación automática de fallos.</span></li>
               <li><svg class="hl-amber" aria-hidden="true"><use href="#i-bolt"/></svg><span>Motor de extracción con patrón Strategy (clase abstracta + 7 integraciones), reduciendo el pipeline OCR de <strong>15–18 s a 4–8 s</strong> por comprobante mediante caché y early-exit.</span></li>
               <li><svg class="hl-emerald" aria-hidden="true"><use href="#i-transfer"/></svg><span>Modelado financiero de 6+ tipos de operación, traspasos con registro doble enlazado y auditoría, saldos por cuenta y reportes por turno sin duplicar transacciones.</span></li>
@@ -319,10 +346,12 @@
                 <svg aria-hidden="true"><use href="#i-whatsapp"/></svg><span>Pedir demo por WhatsApp</span>
               </a>
             </div>
+
+            </details>
           </article>
 
           <!-- Rol 1 -->
-          <article class="project-card project-card--indigo" data-category="ai devops microservices">
+          <article class="project-card project-card--indigo" data-kind="experience" data-start-year="2022" data-category="ai devops microservices">
             <div class="project-head">
               <div>
                 <h3 class="project-title project-title--indigo">Consultor Técnico &amp; Desarrollador Full-Stack Architect</h3>
@@ -330,7 +359,9 @@
               </div>
               <span class="status-badge status-badge--indigo">Ago 2022 – Presente</span>
             </div>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Ver logros y tecnologías</summary>
+              <ul class="highlights">
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-server"/></svg><span>Arquitectura e implementación de microservicios con <strong>FastAPI, Django y Payload CMS</strong>.</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-message"/></svg><span>Desarrollo de agentes interactivos de IA integrando <strong>LangChain, DeepSeek API</strong> y automatización de flujos operacionales mediante <strong>n8n y bots de WhatsApp</strong>.</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-cloud"/></svg><span>Despliegue continuo (CI/CD) configurando <strong>GitHub Actions con runners auto-hospedados</strong> en servidores Linux (Hetzner, Coolify, Docker) asegurados vía <strong>Cloudflare Tunnels y Access</strong>.</span></li>
@@ -343,10 +374,12 @@
               <li class="tech tech--indigo">LangChain</li>
               <li class="tech tech--indigo">Cloudflare</li>
             </ul>
+
+            </details>
           </article>
 
           <!-- Rol 2 -->
-          <article class="project-card" data-category="tactical microservices">
+          <article class="project-card" data-kind="experience" data-start-year="2025" data-category="tactical microservices">
             <div class="project-head">
               <div>
                 <h3 class="project-title">Desarrollador de Software Táctico</h3>
@@ -354,7 +387,9 @@
               </div>
               <span class="status-badge">Jul 2025 – Dic 2025</span>
             </div>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Ver logros y tecnologías</summary>
+              <ul class="highlights">
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-bolt"/></svg><span>Desarrollo de software de telemetría y comunicación táctica en tiempo real utilizando mensajería ultrarrápida cifrada mediante el protocolo <strong>MQTT</strong>.</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-db"/></svg><span>Gestión de almacenamiento híbrido utilizando bases de datos relacionales (PostgreSQL) y NoSQL para análisis inmediato en operaciones de alta seguridad.</span></li>
             </ul>
@@ -363,10 +398,12 @@
               <li class="tech tech--muted">PostgreSQL</li>
               <li class="tech tech--muted">Data Analytics</li>
             </ul>
+
+            </details>
           </article>
 
           <!-- Rol 3 -->
-          <article class="project-card" data-category="ai microservices">
+          <article class="project-card" data-kind="experience" data-start-year="2024" data-category="ai microservices">
             <div class="project-head">
               <div>
                 <h3 class="project-title">Project Manager &amp; Lead Engineer</h3>
@@ -374,7 +411,9 @@
               </div>
               <span class="status-badge">Jul 2024 – Presente</span>
             </div>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Ver logros y tecnologías</summary>
+              <ul class="highlights">
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-users"/></svg><span>Liderazgo técnico en la toma de decisiones de arquitectura, reparto de roles y metodologías ágiles (Scrum/XP).</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-eye"/></svg><span>Integración de modelos predictivos de Machine Learning y servicios LLM para análisis masivo de datos.</span></li>
             </ul>
@@ -383,10 +422,12 @@
               <li class="tech tech--muted">LLMs</li>
               <li class="tech tech--muted">Scrum Leadership</li>
             </ul>
+
+            </details>
           </article>
 
           <!-- Rol 4 -->
-          <article class="project-card" data-category="microservices">
+          <article class="project-card" data-kind="experience" data-start-year="2018" data-category="microservices">
             <div class="project-head">
               <div>
                 <h3 class="project-title">Software &amp; Web Developer</h3>
@@ -394,7 +435,9 @@
               </div>
               <span class="status-badge">May 2018 – Ago 2022</span>
             </div>
-            <ul class="highlights">
+            <details class="project-details">
+              <summary>Ver logros y tecnologías</summary>
+              <ul class="highlights">
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-code"/></svg><span>Desarrollo backend y frontend utilizando PHP (Laravel/WordPress), Java y Python (Django/Flask).</span></li>
               <li><svg class="hl-indigo" aria-hidden="true"><use href="#i-db"/></svg><span>Diseño de esquemas relacionales SQL y mantenimiento preventivo de código.</span></li>
             </ul>
@@ -403,6 +446,8 @@
               <li class="tech tech--muted">Python Django</li>
               <li class="tech tech--muted">MySQL</li>
             </ul>
+
+            </details>
           </article>
 
           <p class="empty-state" id="emptyState">No hay elementos en esta categoría. Prueba con «Todos».</p>
@@ -492,6 +537,35 @@
   </a>
 
   <div class="toast" id="toast" role="status" aria-live="polite">Texto copiado al portapapeles</div>
+
+  <dialog class="command-palette" id="commandPalette" aria-labelledby="commandTitle">
+    <div class="command-heading">
+      <div>
+        <p class="command-kicker">NAVEGACIÓN RÁPIDA</p>
+        <h2 id="commandTitle">¿A dónde vamos?</h2>
+      </div>
+      <form method="dialog"><button class="command-close" type="submit" aria-label="Cerrar comandos">Esc</button></form>
+    </div>
+    <label class="visually-hidden" for="commandSearch">Buscar una acción o sección</label>
+    <div class="command-input-wrap">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="commandSearch" type="search" placeholder="Busca proyectos, secciones o acciones…" autocomplete="off" autofocus>
+    </div>
+    <p class="command-section-label">SUGERENCIAS</p>
+    <div class="command-results" id="commandResults">
+      <button class="command-option" type="button" data-command-target="#proyectos" data-command-terms="proyectos trabajo experiencia portfolio"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-terminal"/></svg></span><span><strong>Explorar proyectos</strong><small>Proyectos destacados y trayectoria</small></span><kbd>↵</kbd></button>
+      <button class="command-option" type="button" data-command-filter="ai" data-command-target="#proyectos" data-command-terms="ia llm inteligencia artificial"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-bolt"/></svg></span><span><strong>Filtrar IA &amp; LLMs</strong><small>Ver sistemas y experiencia de IA</small></span></button>
+      <button class="command-option" type="button" data-command-filter="devops" data-command-target="#proyectos" data-command-terms="devops cloud docker infraestructura"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><span><strong>Filtrar DevOps &amp; Cloud</strong><small>Infraestructura y despliegues</small></span></button>
+      <button class="command-option" type="button" data-command-view="grid" data-command-target="#proyectos" data-command-terms="cuadricula grid compacta"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-box"/></svg></span><span><strong>Vista de cuadrícula</strong><small>Exploración visual · atajo 2</small></span></button>
+      <button class="command-option" type="button" data-command-view="timeline" data-command-target="#proyectos" data-command-terms="trayectoria timeline linea del tiempo"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><span><strong>Vista de trayectoria</strong><small>Experiencia ordenada por año de inicio · atajo 3</small></span></button>
+      <button class="command-option" type="button" data-command-view="list" data-command-target="#proyectos" data-command-terms="lista detalle densa"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-list"/></svg></span><span><strong>Vista de lista</strong><small>Lectura detallada · atajo 1</small></span></button>
+      <button class="command-option" type="button" data-command-target="#stack-titulo" data-command-terms="stack herramientas tecnologias"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-code"/></svg></span><span><strong>Ver stack técnico</strong><small>Lenguajes, frameworks y herramientas</small></span></button>
+      <button class="command-option" type="button" data-command-target="#contacto-titulo" data-command-terms="contacto correo whatsapp contratar"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-message"/></svg></span><span><strong>Ir a contacto</strong><small>Correo, WhatsApp y redes profesionales</small></span></button>
+      <button class="command-option" type="button" data-command-action="print" data-command-terms="imprimir guardar pdf curriculum cv"><span class="command-option-icon"><svg aria-hidden="true"><use href="#i-print"/></svg></span><span><strong>Imprimir / guardar CV</strong><small>Abrir diálogo de impresión del navegador</small></span><kbd>Ctrl/⌘ P</kbd></button>
+    </div>
+    <p class="command-empty" id="commandEmpty" hidden>No encontré esa acción. Prueba con “proyectos”, “IA” o “contacto”.</p>
+    <div class="command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navegar</span><span><kbd>↵</kbd> elegir</span><span><kbd>Esc</kbd> cerrar</span></div>
+  </dialog>
 
   <script src="assets/js/app.js" defer></script>
 </body>
