@@ -244,15 +244,18 @@ main.container { padding-block: 2rem 3rem; }
 @media (min-width: 1024px) {
   .hero-grid { flex-direction: row; justify-content: space-between; align-items: center; }
 }
-.hero-profile { display: flex; flex-direction: column; gap: 1.5rem; }
+.hero-profile { position: relative; display: flex; flex-direction: column; gap: 1.5rem; }
+.hero-profile > .avatar-wrap, .hero-profile > .hero-copy { position: relative; z-index: 1; }
 @media (min-width: 640px) { .hero-profile { flex-direction: row; align-items: center; } }
 
 /* ---------- Nube dispersa de logos tecnológicos ---------- */
 .tech-cloud {
-  position: relative;
-  height: 10rem;
-  margin: 1rem 0 0.5rem;
+  position: absolute;
+  inset: -1rem;
+  z-index: 0;
+  margin: 0;
   isolation: isolate;
+  pointer-events: none;
 }
 .tech-float {
   position: absolute;
@@ -265,7 +268,9 @@ main.container { padding-block: 2rem 3rem; }
   background: rgba(17, 23, 38, 0.82);
   box-shadow: 0 7px 18px rgba(0, 0, 0, 0.2);
   transform: rotate(var(--logo-tilt, 0deg));
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  opacity: 0.28;
+  pointer-events: auto;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease, opacity 180ms ease;
   z-index: 1;
 }
 .tech-float img {
@@ -276,6 +281,7 @@ main.container { padding-block: 2rem 3rem; }
 }
 .tech-float:hover {
   z-index: 5;
+  opacity: 1;
   transform: translateY(-4px) scale(1.65) rotate(0deg);
   border-color: rgba(99, 102, 241, 0.75);
   background: rgba(31, 41, 61, 0.98);
@@ -320,7 +326,6 @@ main.container { padding-block: 2rem 3rem; }
 .tech-float--34 { left: 89%; top: 105px; }
 
 @media (max-width: 640px) {
-  .tech-cloud { height: 17rem; margin-top: 0.75rem; }
   .tech-float { width: 2rem; height: 2rem; border-radius: 0.65rem; }
   .tech-float img { width: 1.2rem; height: 1.2rem; }
   .tech-float--01 { left: 3%; top: 8px; }
