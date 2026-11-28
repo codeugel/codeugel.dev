@@ -251,7 +251,7 @@ main.container { padding-block: 2rem 3rem; }
 /* ---------- Nube dispersa de logos tecnológicos ---------- */
 .tech-cloud {
   position: absolute;
-  inset: -1rem;
+  inset: 0;
   z-index: 0;
   margin: 0;
   isolation: isolate;
@@ -290,80 +290,46 @@ main.container { padding-block: 2rem 3rem; }
 .tech-float:nth-child(3n + 1) { --logo-tilt: -8deg; }
 .tech-float:nth-child(3n + 2) { --logo-tilt: 6deg; }
 .tech-float:nth-child(3n) { --logo-tilt: -3deg; }
-.tech-float--01 { left: 2%; top: 10px; }
-.tech-float--02 { left: 12%; top: 72px; }
-.tech-float--03 { left: 22%; top: 28px; }
-.tech-float--04 { left: 32%; top: 107px; }
-.tech-float--05 { left: 42%; top: 14px; }
-.tech-float--06 { left: 52%; top: 77px; }
-.tech-float--07 { left: 62%; top: 35px; }
-.tech-float--08 { left: 72%; top: 111px; }
-.tech-float--09 { left: 82%; top: 9px; }
-.tech-float--10 { left: 92%; top: 70px; }
-.tech-float--11 { left: 6%; top: 42px; }
-.tech-float--12 { left: 16%; top: 110px; }
-.tech-float--13 { left: 26%; top: 10px; }
-.tech-float--14 { left: 36%; top: 78px; }
-.tech-float--15 { left: 46%; top: 28px; }
-.tech-float--16 { left: 56%; top: 104px; }
-.tech-float--17 { left: 66%; top: 9px; }
-.tech-float--18 { left: 76%; top: 70px; }
-.tech-float--19 { left: 86%; top: 34px; }
-.tech-float--20 { right: 4%; top: 106px; }
-.tech-float--21 { left: 3%; top: 82px; }
-.tech-float--22 { left: 13%; top: 25px; }
-.tech-float--23 { left: 23%; top: 94px; }
-.tech-float--24 { left: 33%; top: 47px; }
-.tech-float--25 { left: 43%; top: 112px; }
-.tech-float--26 { left: 53%; top: 14px; }
-.tech-float--27 { left: 63%; top: 85px; }
-.tech-float--28 { left: 73%; top: 42px; }
-.tech-float--29 { left: 83%; top: 112px; }
-.tech-float--30 { left: 93%; top: 28px; }
-.tech-float--31 { left: 8%; top: 109px; }
-.tech-float--32 { left: 29%; top: 12px; }
-.tech-float--33 { left: 59%; top: 110px; }
-.tech-float--34 { left: 89%; top: 105px; }
+.tech-float--01 { left: 5%; top: 10%; }
+.tech-float--02 { left: 19%; top: 76%; }
+.tech-float--03 { left: 30%; top: 35%; }
+.tech-float--04 { left: 46%; top: 86%; }
+.tech-float--05 { left: 59%; top: 15%; }
+.tech-float--06 { left: 74%; top: 61%; }
+.tech-float--07 { left: 90%; top: 39%; }
+.tech-float--08 { left: 94%; top: 80%; }
+.tech-float--09 { left: 4%; top: 52%; }
+.tech-float--10 { left: 16%; top: 20%; }
+.tech-float--11 { left: 27%; top: 88%; }
+.tech-float--12 { left: 39%; top: 10%; }
+.tech-float--13 { left: 51%; top: 54%; }
+.tech-float--14 { left: 64%; top: 33%; }
+.tech-float--15 { left: 77%; top: 84%; }
+.tech-float--16 { left: 88%; top: 13%; }
+.tech-float--17 { left: 8%; top: 86%; }
+.tech-float--18 { left: 21%; top: 46%; }
+.tech-float--19 { left: 34%; top: 68%; }
+.tech-float--20 { left: 47%; top: 27%; }
+.tech-float--21 { left: 60%; top: 78%; }
+.tech-float--22 { left: 72%; top: 8%; }
+.tech-float--23 { left: 84%; top: 56%; }
+.tech-float--24 { left: 84%; top: 31%; }
+.tech-float--25 { left: 12%; top: 61%; }
+.tech-float--26 { left: 25%; top: 12%; }
+.tech-float--27 { left: 38%; top: 42%; }
+.tech-float--28 { left: 53%; top: 88%; }
+.tech-float--29 { left: 67%; top: 73%; }
+.tech-float--30 { left: 81%; top: 24%; }
+.tech-float--31 { left: 86%; top: 66%; }
+.tech-float--32 { left: 43%; top: 16%; }
+.tech-float--33 { left: 70%; top: 47%; }
+.tech-float--34 { left: 3%; top: 30%; }
 
 @media (max-width: 640px) {
   .tech-float { width: 2rem; height: 2rem; border-radius: 0.65rem; }
   .tech-float img { width: 1.2rem; height: 1.2rem; }
-  .tech-float--01 { left: 3%; top: 8px; }
-  .tech-float--02 { left: 20%; top: 25px; }
-  .tech-float--03 { left: 38%; top: 3px; }
-  .tech-float--04 { left: 56%; top: 17px; }
-  .tech-float--05 { left: 74%; top: 7px; }
-  .tech-float--06 { right: 11%; left: auto; top: 27px; }
-  .tech-float--07 { left: 8%; top: 51px; }
-  .tech-float--08 { left: 26%; top: 36px; }
-  .tech-float--09 { left: 44%; top: 58px; }
-  .tech-float--10 { left: 62%; top: 42px; }
-  .tech-float--11 { left: 80%; top: 61px; }
-  .tech-float--12 { left: 2%; top: 82px; }
-  .tech-float--13 { left: 19%; top: 92px; }
-  .tech-float--14 { left: 37%; top: 78px; }
-  .tech-float--15 { left: 55%; top: 103px; }
-  .tech-float--16 { left: 73%; top: 86px; }
-  .tech-float--17 { right: 12%; left: auto; top: 112px; }
-  .tech-float--18 { left: 8%; top: 126px; }
-  .tech-float--19 { left: 26%; top: 120px; }
-  .tech-float--20 { left: 44%; top: 145px; }
-  .tech-float--21 { left: 62%; top: 130px; }
-  .tech-float--22 { left: 80%; top: 158px; }
-  .tech-float--23 { left: 2%; top: 172px; }
-  .tech-float--24 { left: 20%; top: 156px; }
-  .tech-float--25 { left: 38%; top: 184px; }
-  .tech-float--26 { left: 56%; top: 171px; }
-  .tech-float--27 { left: 74%; top: 197px; }
-  .tech-float--28 { right: 12%; left: auto; top: 181px; }
-  .tech-float--29 { left: 8%; top: 213px; }
-  .tech-float--30 { left: 26%; top: 199px; }
-  .tech-float--31 { left: 44%; top: 225px; }
-  .tech-float--32 { left: 62%; top: 209px; }
-  .tech-float--33 { left: 80%; top: 238px; }
-  .tech-float--34 { left: 2%; top: 230px; }
+  .tech-float--07, .tech-float--08, .tech-float--16, .tech-float--31 { left: 82%; }
 }
-
 .avatar-wrap { position: relative; flex-shrink: 0; }
 .avatar-ring {
   position: relative;
@@ -428,6 +394,8 @@ main.container { padding-block: 2rem 3rem; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.5rem; }
 
 .hero-summary {
+  position: relative;
+  z-index: 1;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(31, 41, 61, 0.8);
