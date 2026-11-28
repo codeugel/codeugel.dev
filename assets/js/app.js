@@ -105,43 +105,190 @@
     });
   }
 
-  /* ---------- Filtros ---------- */
+  /* ---------- Búsqueda, filtros y vistas ---------- */
+  function normalize(value) {
+    return String(value || "").toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  }
+
   function initFilters() {
-    var buttons = document.querySelectorAll(".filter-btn");
-    var items = document.querySelectorAll("[data-category]");
+    var filterButtons = Array.prototype.slice.call(document.querySelectorAll(".filter-btn"));
+    var viewButtons = Array.prototype.slice.call(document.querySelectorAll(".view-btn"));
+    var items = Array.prototype.slice.call(document.querySelectorAll("#proyectos [data-category]"));
+    var projects = document.getElementById("proyectos");
+    var search = document.getElementById("projectSearch");
     var countEl = document.getElementById("filterCount");
     var emptyEl = document.getElementById("emptyState");
-    if (!buttons.length || !items.length) return;
+    var activeFilter = "all";
+    var originalOrder = items.slice();
+    if (!items.length || !projects) return null;
 
-    function updateCount(visible) {
-      if (countEl) {
-        countEl.textContent = visible + " de " + items.length + " elementos";
-      }
+    function applyFilters() {
+      var query = normalize(search ? search.value : "");
+      var visible = 0;
+      items.forEach(function (item) {
+        var categories = (item.getAttribute("data-category") || "").split(/\s+/);
+        var text = normalize(item.textContent);
+        var matchesFilter = activeFilter === "all" || categories.indexOf(activeFilter) !== -1;
+        var matchesQuery = !query || text.indexOf(query) !== -1;
+        var show = matchesFilter && matchesQuery;
+        item.hidden = !show;
+        if (show) visible += 1;
+      });
+      if (countEl) countEl.textContent = visible + " de " + items.length + " elementos";
       if (emptyEl) {
         emptyEl.classList.toggle("is-visible", visible === 0);
+        emptyEl.textContent = query ? "No encontré coincidencias para «" + search.value.trim() + "». Prueba otro término." : "No hay elementos en esta categoría. Prueba con «Todo».";
       }
     }
 
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var category = btn.getAttribute("data-filter") || "all";
+    function setFilter(category) {
+      activeFilter = category || "all";
+      filterButtons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.getAttribute("data-filter") === activeFilter ? "true" : "false");
+      });
+      applyFilters();
+    }
 
-        buttons.forEach(function (b) {
-          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
-        });
+    function setView(view) {
+      var selected = view || "list";
+      projects.setAttribute("data-view", selected);
+      viewButtons.forEach(function (button) {
+        button.setAttribute("aria-pressed", button.getAttribute("data-view") === selected ? "true" : "false");
+      });
 
-        var visible = 0;
-        items.forEach(function (item) {
-          var cats = (item.getAttribute("data-category") || "").split(" ");
-          var show = category === "all" || cats.indexOf(category) !== -1;
-          item.hidden = !show;
-          if (show) visible += 1;
+      var ordered = originalOrder.slice();
+      if (selected === "timeline") {
+        ordered.sort(function (a, b) {
+          var aKind = a.getAttribute("data-kind") || "experience";
+          var bKind = b.getAttribute("data-kind") || "experience";
+          if (aKind !== bKind) return aKind === "project" ? -1 : 1;
+          return Number(b.getAttribute("data-start-year") || 0) - Number(a.getAttribute("data-start-year") || 0);
         });
-        updateCount(visible);
+      }
+      ordered.forEach(function (item) { projects.insertBefore(item, emptyEl); });
+    }
+
+    filterButtons.forEach(function (button) {
+      button.addEventListener("click", function () { setFilter(button.getAttribute("data-filter")); });
+    });
+    viewButtons.forEach(function (button) {
+      button.addEventListener("click", function () { setView(button.getAttribute("data-view")); });
+    });
+    if (search) search.addEventListener("input", applyFilters);
+    setView("list");
+    setFilter("all");
+    return { setFilter: setFilter, setView: setView, refresh: applyFilters };
+  }
+
+  /* ---------- Paleta de comandos y atajos ---------- */
+  function initCommandPalette(explorer) {
+    var trigger = document.getElementById("commandTrigger");
+    var dialog = document.getElementById("commandPalette");
+    var input = document.getElementById("commandSearch");
+    var empty = document.getElementById("commandEmpty");
+    var search = document.getElementById("projectSearch");
+    if (!trigger || !dialog || !input || !explorer || typeof dialog.showModal !== "function") return;
+
+    var options = Array.prototype.slice.call(dialog.querySelectorAll(".command-option"));
+    function visibleOptions() { return options.filter(function (option) { return !option.hidden; }); }
+    function filterOptions() {
+      var query = normalize(input.value);
+      var visible = 0;
+      options.forEach(function (option) {
+        var terms = normalize(option.textContent + " " + (option.getAttribute("data-command-terms") || ""));
+        option.hidden = query && terms.indexOf(query) === -1;
+        if (!option.hidden) visible += 1;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }
+    function openPalette() {
+      if (!dialog.open) dialog.showModal();
+      input.value = "";
+      filterOptions();
+      input.focus();
+    }
+    function goTo(targetSelector) {
+      if (!targetSelector) return;
+      var target = document.querySelector(targetSelector);
+      if (!target) return;
+      window.requestAnimationFrame(function () {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!target.hasAttribute("tabindex") && !/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(target.tagName)) target.setAttribute("tabindex", "-1");
+        if (target.focus) target.focus({ preventScroll: true });
+      });
+    }
+
+    trigger.addEventListener("click", openPalette);
+    input.addEventListener("input", filterOptions);
+    options.forEach(function (option) {
+      option.addEventListener("click", function () {
+        if (search && (option.hasAttribute("data-command-filter") || option.hasAttribute("data-command-view"))) search.value = "";
+        if (option.hasAttribute("data-command-filter")) explorer.setFilter(option.getAttribute("data-command-filter"));
+        if (option.hasAttribute("data-command-view")) {
+          explorer.setView(option.getAttribute("data-command-view"));
+          explorer.refresh();
+        }
+        var target = option.getAttribute("data-command-target");
+        var action = option.getAttribute("data-command-action");
+        dialog.close();
+        if (action === "print") window.setTimeout(function () { window.print(); }, 0);
+        else goTo(target);
       });
     });
 
-    updateCount(items.length);
+    dialog.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") {
+        if (event.key === "Enter" && event.target === input) {
+          var first = visibleOptions()[0];
+          if (first) { event.preventDefault(); first.click(); }
+        }
+        return;
+      }
+      var visible = visibleOptions();
+      if (!visible.length) return;
+      event.preventDefault();
+      var current = visible.indexOf(document.activeElement);
+      var direction = event.key === "ArrowDown" ? 1 : -1;
+      var next = current < 0 ? (direction > 0 ? 0 : visible.length - 1) : (current + direction + visible.length) % visible.length;
+      visible[next].focus();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      var target = event.target;
+      var isEditing = target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        if (dialog.open) dialog.close(); else openPalette();
+        return;
+      }
+      if (dialog.open || isEditing || event.altKey || event.metaKey || event.ctrlKey) return;
+      if (event.key === "/" && search) {
+        event.preventDefault();
+        search.focus();
+      } else if (event.key === "1") explorer.setView("list");
+      else if (event.key === "2") explorer.setView("grid");
+      else if (event.key === "3") explorer.setView("timeline");
+    });
+  }
+
+  /* ---------- Entrada suave al recorrer ---------- */
+  function initScrollReveal() {
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var elements = document.querySelectorAll("#proyectos .project-card, .layout-grid > .stack > .panel, .contact-card");
+    if (!elements.length) return;
+    document.documentElement.classList.add("has-reveal");
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+    elements.forEach(function (element) {
+      element.classList.add("reveal-item");
+      observer.observe(element);
+    });
   }
 
   /* ---------- Copiar correo ---------- */
@@ -225,7 +372,9 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     buildRadar();
-    initFilters();
+    var explorer = initFilters();
+    initCommandPalette(explorer);
+    initScrollReveal();
     initCopy();
     initPrint();
     initAvatarFallback();
