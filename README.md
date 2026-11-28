@@ -11,6 +11,7 @@ index.html                     Página principal (semántica, SEO, JSON-LD)
 assets/css/style.css           Estilos propios (sin Tailwind CDN ni frameworks)
 assets/img/codeugel-mark.png   Isotipo transparente para navegación y favicon
 assets/img/codeugel-logo.png   Logo transparente completo para Open Graph
+assets/img/tech-logos/*.svg    Logos locales actuales para la nube interactiva del hero
 assets/js/app.js               Filtros, radar SVG, copiar correo, WhatsApp (defer)
 _headers                       Cabeceras de seguridad (Cloudflare Pages)
 robots.txt / sitemap.xml       Indexación
